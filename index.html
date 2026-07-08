@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oneside — Firma con la tranquilidad de que ya lo revisaron</title>
+<meta name="description" content="Oneside by Marchena Consultores: sube tu contrato, recibe un informe claro con lo que hay que cambiar antes de firmar. Revisión de IA validada por abogados, en máximo 3 días hábiles.">
+<style>
+:root{
+  --white:#FFFFFF;
+  --paper:#F6F8FA;
+  --ink:#0E1B26;
+  --gray-600:#4B5A68;
+  --gray-400:#8496A3;
+  --gray-200:#DDE5EA;
+  --gray-100:#EEF2F5;
+  --turqui-900:#0A2E4D;
+  --turqui-800:#0D3557;
+  --turqui-700:#12395C;
+  --turqui-600:#1B4A73;
+  --turqui-500:#2A5D8A;
+  --turqui-100:#E7EEF4;
+  --turqui-050:#F2F6FA;
+  --amber:#B8823A;
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font);
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+ul{list-style:none;}
+.container{max-width:1180px;margin:0 auto;padding:0 24px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--turqui-700);
+  background:var(--turqui-100);
+  padding:6px 12px;border-radius:100px;
+}
+h1,h2,h3{font-weight:700;letter-spacing:-.02em;color:var(--turqui-900);}
+h2{font-size:clamp(28px,3.6vw,40px);}
+h3{font-size:19px;}
+.section-head{max-width:640px;margin-bottom:44px;}
+.section-head p{color:var(--gray-600);font-size:17px;margin-top:12px;}
+section{padding:96px 0;}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease), transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none;}
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important;}
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 24px;border-radius:100px;font-weight:600;font-size:15px;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  white-space:nowrap;
+}
+.btn-primary{
+  background:var(--turqui-800);color:var(--white);
+  box-shadow:0 1px 2px rgba(10,46,77,.15);
+}
+.btn-primary:hover{background:var(--turqui-900);transform:translateY(-2px);box-shadow:0 10px 22px rgba(10,46,77,.28);}
+.btn-primary:active{transform:translateY(0);}
+.btn-ghost{
+  background:transparent;color:var(--turqui-800);border:1.5px solid var(--gray-200);
+}
+.btn-ghost:hover{border-color:var(--turqui-700);background:var(--turqui-050);}
+.btn-block{width:100%;}
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible{
+  outline:2.5px solid var(--turqui-600); outline-offset:2px;
+}
+
+/* ---------- Header ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--gray-100);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--turqui-900);}
+.brand .mark{width:30px;height:30px;border-radius:9px;background:var(--turqui-800);position:relative;flex:none;}
+.brand .mark::after{
+  content:"";position:absolute;left:8px;top:6px;width:14px;height:2px;background:var(--white);
+  box-shadow:0 5px 0 var(--white), 0 10px 0 rgba(255,255,255,.55);
+}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--gray-400);letter-spacing:.01em;}
+.nav-links{display:flex;align-items:center;gap:34px;font-size:14.5px;font-weight:500;color:var(--gray-600);}
+.nav-links a{transition:color .2s;}
+.nav-links a:hover{color:var(--turqui-800);}
+.nav-cta{display:flex;align-items:center;gap:18px;}
+.nav-toggle{display:none;}
+@media (max-width:880px){
+  .nav-links{display:none;}
+}
+
+/* ---------- Hero ---------- */
+.hero{padding:76px 0 40px;position:relative;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr;}}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.08;}
+.hero h1 em{font-style:normal;color:var(--turqui-600);}
+.hero-sub{margin-top:20px;font-size:18px;color:var(--gray-600);max-width:480px;}
+.hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+.hero-badges{display:flex;gap:22px;margin-top:38px;flex-wrap:wrap;}
+.hero-badge{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--gray-600);font-weight:500;}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--turqui-600);flex:none;}
+
+/* ---- Signature element: contract scan card ---- */
+.scan-card{
+  position:relative;background:var(--turqui-900);border-radius:26px;padding:26px;
+  box-shadow:0 30px 70px -20px rgba(10,46,77,.45);
+}
+.scan-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.scan-card-top .ticket{font-size:12px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.04em;}
+.scan-status{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#8FD3B0;}
+.scan-status .pulse{width:7px;height:7px;border-radius:50%;background:#8FD3B0;animation:pulse 1.6s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+.doc{
+  background:var(--white);border-radius:16px;padding:26px 24px 22px;position:relative;overflow:hidden;
+  min-height:300px;
+}
+.doc-line{height:9px;border-radius:5px;background:var(--gray-100);margin-bottom:11px;position:relative;overflow:hidden;}
+.doc-line.w1{width:88%;} .doc-line.w2{width:62%;} .doc-line.w3{width:95%;} .doc-line.w4{width:40%;margin-bottom:20px;}
+.doc-line.w5{width:80%;} .doc-line.w6{width:70%;} .doc-line.w7{width:90%;} .doc-line.w8{width:52%;margin-bottom:20px;}
+.doc-line.w9{width:85%;} .doc-line.w10{width:66%;}
+.doc-line.flag{background:#FCE4C7;}
+.doc-line.flag::after{
+  content:"";position:absolute;right:-2px;top:-6px;width:20px;height:20px;border-radius:50%;
+  background:var(--amber);
+}
+.scanbeam{
+  position:absolute;left:0;right:0;height:64px;top:-64px;
+  background:linear-gradient(180deg, rgba(27,74,115,0) 0%, rgba(27,74,115,.14) 45%, rgba(27,74,115,0) 100%);
+  animation:sweep 3.6s linear infinite;
+  pointer-events:none;
+}
+@keyframes sweep{
+  0%{top:-64px;}
+  100%{top:100%;}
+}
+.doc-chip{
+  position:absolute;background:var(--turqui-900);color:#fff;font-size:11px;font-weight:600;padding:5px 9px;border-radius:7px;
+  opacity:0;transform:translateY(4px);animation:chipin .5s var(--ease) forwards;
+  box-shadow:0 6px 14px rgba(10,46,77,.35);
+}
+.doc-chip.c1{right:14px;top:112px;animation-delay:1.1s;}
+.doc-chip.c2{right:14px;top:196px;animation-delay:2.3s;}
+@keyframes chipin{to{opacity:1;transform:translateY(0);}}
+.scan-card-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:18px;color:rgba(255,255,255,.72);font-size:12.5px;}
+.scan-card-bottom strong{color:#fff;}
+
+/* ---------- Proceso ---------- */
+.proceso{background:var(--paper);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:920px){.steps{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.steps{grid-template-columns:1fr;}}
+.step{
+  background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);
+  padding:26px 22px;transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.step:hover{transform:translateY(-6px);box-shadow:0 20px 40px -18px rgba(10,46,77,.22);border-color:var(--turqui-100);}
+.step .num{
+  font-size:13px;font-weight:700;color:var(--turqui-600);letter-spacing:.03em;
+  display:flex;align-items:center;gap:8px;margin-bottom:16px;
+}
+.step .num::before{content:"";width:26px;height:1.5px;background:var(--turqui-200,var(--gray-200));}
+.step-icon{width:44px;height:44px;border-radius:12px;background:var(--turqui-100);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.step h3{margin-bottom:6px;}
+.step p{color:var(--gray-600);font-size:14.5px;}
+.sla-strip{
+  margin-top:40px;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--turqui-900);color:#fff;padding:15px 22px;border-radius:100px;
+  font-size:14.5px;font-weight:600;max-width:fit-content;margin-left:auto;margin-right:auto;
+}
+
+/* ---------- Upload ---------- */
+.subir{}
+.upload-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+@media (max-width:920px){.upload-wrap{grid-template-columns:1fr;}}
+.upload-copy p{color:var(--gray-600);font-size:16px;margin-top:14px;}
+.upload-points{margin-top:26px;display:flex;flex-direction:column;gap:14px;}
+.upload-points li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--gray-600);}
+.upload-points svg{flex:none;margin-top:2px;}
+
+.uploader{
+  background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);
+  padding:28px;box-shadow:0 20px 50px -30px rgba(10,46,77,.35);
+}
+.dropzone{
+  border:2px dashed var(--gray-200);border-radius:16px;padding:34px 20px;text-align:center;
+  transition:border-color .25s, background .25s;cursor:pointer;
+}
+.dropzone.drag{border-color:var(--turqui-600);background:var(--turqui-050);}
+.dropzone svg{margin:0 auto 12px;}
+.dropzone p{font-size:14.5px;color:var(--gray-600);}
+.dropzone .browse{color:var(--turqui-700);font-weight:600;text-decoration:underline;}
+.dropzone .hint{font-size:12.5px;color:var(--gray-400);margin-top:8px;}
+input[type=file]{display:none;}
+.field{margin-top:18px;}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--turqui-900);margin-bottom:7px;}
+select, input[type=email]{
+  width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--gray-200);
+  font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--white);
+  transition:border-color .2s;
+}
+select:focus, input[type=email]:focus{border-color:var(--turqui-600);}
+.form-error{
+  display:none;margin-top:10px;font-size:13px;color:#B3452E;background:#FBEAE5;
+  padding:9px 12px;border-radius:8px;
+}
+.form-error.show{display:block;}
+.file-picked{
+  display:none;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:14px;padding:12px 14px;background:var(--turqui-050);border-radius:10px;font-size:13.5px;
+}
+.file-picked.show{display:flex;}
+.file-picked .name{font-weight:600;color:var(--turqui-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px;}
+.file-picked button{color:var(--gray-400);font-size:13px;font-weight:600;}
+.file-picked button:hover{color:#B3452E;}
+.progress-wrap{display:none;margin-top:18px;}
+.progress-wrap.show{display:block;}
+.progress-track{height:8px;background:var(--gray-100);border-radius:100px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:var(--turqui-700);border-radius:100px;transition:width .18s linear;}
+.progress-label{margin-top:8px;font-size:12.5px;color:var(--gray-500,var(--gray-600));display:flex;justify-content:space-between;}
+.success-state{display:none;text-align:center;padding:12px 4px 4px;}
+.success-state.show{display:block;}
+.success-state .check{
+  width:52px;height:52px;border-radius:50%;background:var(--turqui-100);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;animation:pop .4s var(--ease);
+}
+@keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+.success-state h3{margin-bottom:6px;}
+.success-state p{color:var(--gray-600);font-size:14px;}
+.success-state .tid{
+  margin-top:14px;display:inline-block;background:var(--turqui-900);color:#fff;font-weight:700;
+  letter-spacing:.04em;padding:9px 16px;border-radius:10px;font-size:13.5px;
+}
+.uploader.hide-form .upload-body{display:none;}
+
+/* ---------- Almacenamiento ---------- */
+.almacenamiento{background:var(--paper);}
+.acc-list{border-top:1px solid var(--gray-200);}
+.acc-item{border-bottom:1px solid var(--gray-200);}
+.acc-head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:22px 4px;text-align:left;font-weight:600;font-size:16.5px;color:var(--turqui-900);
+}
+.acc-head .plus{
+  flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gray-200);position:relative;
+  transition:transform .3s var(--ease), border-color .3s;
+}
+.acc-head .plus::before, .acc-head .plus::after{
+  content:"";position:absolute;background:var(--turqui-800);left:50%;top:50%;transform:translate(-50%,-50%);
+}
+.acc-head .plus::before{width:10px;height:1.6px;}
+.acc-head .plus::after{width:1.6px;height:10px;transition:opacity .25s;}
+.acc-item.open .acc-head .plus{transform:rotate(180deg);border-color:var(--turqui-600);}
+.acc-item.open .acc-head .plus::after{opacity:0;}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .38s var(--ease);}
+.acc-body-inner{padding:0 4px 24px;color:var(--gray-600);font-size:14.5px;max-width:680px;}
+.acc-body-inner .flag{
+  display:inline-block;margin-top:10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;
+  color:var(--amber);background:#FBF1E3;padding:4px 9px;border-radius:6px;
+}
+
+/* ---------- Precios ---------- */
+.precios{}
+.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 46px;}
+.toggle-label{font-size:14.5px;font-weight:600;color:var(--gray-400);transition:color .25s;}
+.toggle-label.active{color:var(--turqui-900);}
+.switch{
+  width:52px;height:30px;background:var(--turqui-800);border-radius:100px;position:relative;flex:none;
+  transition:background .25s;
+}
+.switch .knob{
+  position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;
+  transition:transform .3s var(--ease);box-shadow:0 2px 5px rgba(0,0,0,.25);
+}
+.switch.on .knob{transform:translateX(22px);}
+.save-pill{
+  font-size:11.5px;font-weight:700;background:var(--turqui-100);color:var(--turqui-700);
+  padding:4px 9px;border-radius:100px;
+}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;}
+@media (max-width:940px){.plans{grid-template-columns:1fr;max-width:420px;margin:0 auto;}}
+.plan{
+  border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:30px 26px;background:var(--white);
+  display:flex;flex-direction:column;transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+  position:relative;
+}
+.plan:hover{transform:translateY(-6px);box-shadow:0 24px 46px -22px rgba(10,46,77,.25);}
+.plan.popular{border-color:var(--turqui-700);box-shadow:0 24px 46px -22px rgba(10,46,77,.3);}
+.plan-badge{
+  position:absolute;top:-13px;left:26px;background:var(--turqui-800);color:#fff;font-size:11.5px;font-weight:700;
+  padding:5px 12px;border-radius:100px;letter-spacing:.02em;
+}
+.plan-name{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--turqui-600);}
+.plan-price{margin-top:12px;display:flex;align-items:baseline;gap:6px;}
+.plan-price .amt{font-size:32px;font-weight:700;color:var(--turqui-900);letter-spacing:-.02em;}
+.plan-price .per{font-size:13.5px;color:var(--gray-400);}
+.plan-desc{margin-top:8px;font-size:14px;color:var(--gray-600);min-height:38px;}
+.plan-feat{margin-top:22px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.plan-feat li{display:flex;gap:10px;font-size:14px;color:var(--gray-600);align-items:flex-start;}
+.plan-feat svg{flex:none;margin-top:2px;}
+.plan .btn{margin-top:26px;}
+.price-note{margin-top:22px;text-align:center;font-size:12.5px;color:var(--gray-400);}
+
+/* ---------- Prueba social ---------- */
+.social{background:var(--paper);}
+.logos{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:center;margin-top:8px;opacity:.7;}
+.logos .logo-ph{
+  height:28px;padding:0 18px;display:flex;align-items:center;font-weight:700;color:var(--gray-400);font-size:14px;
+  border:1.5px dashed var(--gray-200);border-radius:8px;
+}
+.testis{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px;}
+@media (max-width:880px){.testis{grid-template-columns:1fr;}}
+.testi{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px;box-shadow:0 16px 34px -26px rgba(10,46,77,.3);}
+.testi p{font-size:14.5px;color:var(--gray-600);}
+.testi .who{margin-top:16px;display:flex;align-items:center;gap:10px;}
+.testi .av{width:36px;height:36px;border-radius:50%;background:var(--turqui-100);flex:none;}
+.testi .who strong{display:block;font-size:13.5px;color:var(--turqui-900);}
+.testi .who span{font-size:12px;color:var(--gray-400);}
+.trust-seal{
+  margin-top:44px;display:flex;align-items:center;justify-content:center;gap:12px;
+  font-size:13.5px;color:var(--gray-600);font-weight:500;
+}
+
+/* ---------- FAQ ---------- */
+.faq{}
+
+/* ---------- CTA final ---------- */
+.cta-final{
+  background:var(--turqui-900);border-radius:28px;padding:60px 40px;text-align:center;color:#fff;
+  margin:0 24px;max-width:1132px;margin:0 auto;
+}
+.cta-final h2{color:#fff;}
+.cta-final p{color:rgba(255,255,255,.72);margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto;}
+.cta-final .btn-primary{background:#fff;color:var(--turqui-900);margin-top:26px;}
+.cta-final .btn-primary:hover{background:var(--turqui-050);}
+
+/* ---------- Footer ---------- */
+footer{padding:60px 0 34px;border-top:1px solid var(--gray-100);}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;}
+@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;}}
+.foot-grid h4{font-size:13px;font-weight:700;color:var(--turqui-900);margin-bottom:14px;}
+.foot-grid li{margin-bottom:9px;font-size:13.5px;color:var(--gray-600);}
+.foot-grid a:hover{color:var(--turqui-800);}
+.foot-bottom{
+  margin-top:46px;padding-top:22px;border-top:1px solid var(--gray-100);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--gray-400);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <span class="mark"></span>
+      <span>Oneside<br><small>by Marchena Consultores</small></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#proceso">Cómo funciona</a>
+      <a href="#precios">Precios</a>
+      <a href="#almacenamiento">Seguridad</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#footer">Contacto</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#subir" class="btn btn-primary">Sube tu contrato</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Revisión legal en máx. 3 días hábiles</span>
+      <h1 style="margin-top:18px;">Firma con la tranquilidad de que <em>ya lo revisó</em> un experto.</h1>
+      <p class="hero-sub">Sube tu contrato y recibe un informe corto y claro con los cambios que de verdad importan antes de firmar. Tecnología de Oneside, criterio jurídico de Marchena Consultores.</p>
+      <div class="hero-ctas">
+        <a href="#subir" class="btn btn-primary">Sube tu contrato</a>
+        <a href="#proceso" class="btn btn-ghost">Ver cómo funciona</a>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge"><span class="dot"></span>Sin jerga legal, todo en español claro</div>
+        <div class="hero-badge"><span class="dot"></span>Revisado por abogados, no solo por IA</div>
+        <div class="hero-badge"><span class="dot"></span>Pensado para pymes y autónomos</div>
+      </div>
+    </div>
+
+    <div class="scan-card reveal">
+      <div class="scan-card-top">
+        <span class="ticket">CONTRATO_ARRENDAMIENTO.pdf</span>
+        <span class="scan-status"><span class="pulse"></span>Revisando</span>
+      </div>
+      <div class="doc">
+        <div class="scanbeam"></div>
+        <div class="doc-line w1"></div>
+        <div class="doc-line w2"></div>
+        <div class="doc-line w3 flag"></div>
+        <div class="doc-line w4"></div>
+        <div class="doc-line w5"></div>
+        <div class="doc-line w6 flag"></div>
+        <div class="doc-line w7"></div>
+        <div class="doc-line w8"></div>
+        <div class="doc-line w9"></div>
+        <div class="doc-line w10"></div>
+        <div class="doc-chip c1">Cláusula a revisar</div>
+        <div class="doc-chip c2">Falta plazo de aviso</div>
+      </div>
+      <div class="scan-card-bottom">
+        <span>Tiempo máximo de entrega</span>
+        <strong>3 días hábiles</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proceso" id="proceso">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2 style="margin-top:14px;">Cuatro pasos, sin complicaciones.</h2>
+      <p>Nada de portales confusos ni de esperar semanas por una respuesta.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">01</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15V3M12 3L7 8M12 3l5 5" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Sube tu contrato</h3>
+        <p>Arrastra el archivo o selecciónalo desde tu computador. PDF o Word.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">02</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#12395C" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="#12395C" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Revisión técnica</h3>
+        <p>Nuestra tecnología detecta cláusulas de riesgo y vacíos importantes.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">03</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>
+        </div>
+        <h3>Validación de Marchena</h3>
+        <p>Un abogado del equipo confirma cada hallazgo antes de enviarte nada.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">04</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Firmas con confianza</h3>
+        <p>Recibes un informe breve y accionable con lo que hay que ajustar.</p>
+      </div>
+    </div>
+    <div class="sla-strip reveal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      Tiempo máximo de entrega: 3 días hábiles
+    </div>
+  </div>
+</section>
+
+<section class="subir" id="subir">
+  <div class="container upload-wrap">
+    <div class="upload-copy reveal">
+      <span class="eyebrow">Sube tu contrato</span>
+      <h2 style="margin-top:14px;">Empieza aquí. Toma menos de un minuto.</h2>
+      <p>Sube el documento, cuéntanos qué tipo de contrato es y nosotros nos encargamos del resto. Te avisamos apenas quede en cola de revisión.</p>
+      <ul class="upload-points">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Formatos aceptados: PDF, DOCX y DOC</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Tamaño máximo por archivo: 20&nbsp;MB</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Recibes un número de referencia al instante</li>
+      </ul>
+    </div>
+
+    <div class="uploader reveal" id="uploader">
+      <div class="upload-body">
+        <form id="uploadForm" novalidate>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept=".pdf,.doc,.docx">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 15V3M12 3L7 8M12 3l5 5" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Arrastra tu contrato aquí o <span class="browse" id="browseBtn">selecciona el archivo</span></p>
+            <p class="hint">PDF, DOCX o DOC · máx. 20 MB</p>
+          </div>
+          <div class="file-picked" id="filePicked">
+            <span class="name" id="fileName"></span>
+            <button type="button" id="removeFile">Quitar</button>
+          </div>
+          <div class="form-error" id="formError"></div>
+
+          <div class="field">
+            <label for="tipoContrato">Tipo de contrato (opcional)</label>
+            <select id="tipoContrato">
+              <option value="">Selecciona una opción</option>
+              <option value="arrendamiento">Arrendamiento</option>
+              <option value="laboral">Laboral</option>
+              <option value="mercantil">Mercantil</option>
+              <option value="prestacion">Prestación de servicios</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="emailContacto">Correo para enviarte el informe</label>
+            <input type="email" id="emailContacto" placeholder="tucorreo@empresa.com" required>
+          </div>
+
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-label"><span id="progressText">Subiendo documento…</span><span id="progressPct">0%</span></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;" id="submitBtn">Enviar contrato a revisión</button>
+        </form>
+      </div>
+
+      <div class="success-state" id="successState">
+        <div class="check"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 12l4 4 8-8" stroke="#0A2E4D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Documento recibido, en cola de revisión</h3>
+        <p>Te escribiremos a tu correo con el informe en un máximo de 3 días hábiles.</p>
+        <span class="tid" id="ticketId"></span>
+        <div style="margin-top:22px;">
+          <button type="button" class="btn btn-ghost" id="resetForm">Subir otro contrato</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="almacenamiento" id="almacenamiento">
+  <div class="container" style="max-width:760px;">
+    <div class="section-head reveal">
+      <span class="eyebrow">Seguridad</span>
+      <h2 style="margin-top:14px;">¿Dónde se guardan tus documentos?</h2>
+      <p>Un resumen simple de cómo cuidamos tu información.</p>
+    </div>
+    <div class="acc-list reveal" id="storageAcc">
+      <div class="acc-item open">
+        <button class="acc-head" type="button">¿Dónde se almacenan mis documentos?<span class="plus"></span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">Tu contrato se guarda en servidores en la nube, cifrado tanto en tránsito como en reposo. Nadie fuera del equipo de revisión puede acceder a él.
+            <span class="flag">Pendiente de validación legal por Marchena Consultores</span>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Cuánto tiempo conservan mi documento?<span class="plus"></span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">Conservamos el documento el tiempo necesario para completar la revisión y entregarte el informe. Después puedes solicitar su eliminación en cualquier momento.
+            <span class="flag">Pendiente de validación legal por Marchena Consultores</span>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Quién tiene acceso a mi contrato?<span class="plus"></span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">Solo el equipo de revisión de Marchena Consultores. Nunca se comparte con terceros ni se usa para otro fin distinto a tu revisión.
+            <span class="flag">Pendiente de validación legal por Marchena Consultores</span>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Cómo pido que eliminen mi documento?<span class="plus"></span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">Escríbenos a nuestro correo de contacto indicando tu número de referencia y eliminamos el documento de nuestros servidores.
+            <span class="flag">Pendiente de validación legal por Marchena Consultores</span>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Cumplen con protección de datos?<span class="plus"></span></button>
+        <div class="acc-body">
+          <div class="acc-body-inner">Trabajamos bajo los principios de la normativa de protección de datos aplicable en Colombia (Ley 1581 de 2012) y, cuando corresponda, del RGPD para clientes en España.
+            <span class="flag">Pendiente de validación legal por Marchena Consultores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="precios" id="precios">
+  <div class="container">
+    <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <span class="eyebrow">Precios</span>
+      <h2 style="margin-top:14px;">Un plan para cada volumen de contratos.</h2>
+      <p style="margin-left:auto;margin-right:auto;">Precios en pesos colombianos (COP). Sin letra pequeña.</p>
+    </div>
+
+    <div class="toggle-wrap reveal">
+      <span class="toggle-label active" id="labelMensual">Mensual</span>
+      <button type="button" class="switch" id="billingSwitch" aria-label="Cambiar entre pago mensual y anual"><span class="knob"></span></button>
+      <span class="toggle-label" id="labelAnual">Anual</span>
+      <span class="save-pill">Ahorra 15%</span>
+    </div>
+
+    <div class="plans reveal">
+      <div class="plan">
+        <div class="plan-name">Revisión individual</div>
+        <div class="plan-price"><span class="amt">$99.000</span><span class="per">COP / contrato</span></div>
+        <p class="plan-desc">Pago único. Ideal si necesitas revisar un solo contrato.</p>
+        <ul class="plan-feat">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>1 contrato revisado</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Informe de modificaciones</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Entrega en hasta 3 días hábiles</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Entrega express: 48h (+$40.000) o 24h (+$70.000)</li>
+        </ul>
+        <a href="#subir" class="btn btn-ghost btn-block">Revisar un contrato</a>
+      </div>
+
+      <div class="plan popular">
+        <span class="plan-badge">Más popular</span>
+        <div class="plan-name">Plan Pyme</div>
+        <div class="plan-price"><span class="amt" id="pymePrice">$349.000</span><span class="per">COP / mes</span></div>
+        <p class="plan-desc" id="pymeDesc">Suscripción mensual, cancela cuando quieras.</p>
+        <ul class="plan-feat">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Revisiones ilimitadas</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Prioridad en la cola de revisión</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Entrega en hasta 3 días hábiles</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Opción de entrega urgente</li>
+        </ul>
+        <a href="#subir" class="btn btn-primary btn-block">Empezar con Plan Pyme</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Plan Empresa</div>
+        <div class="plan-price"><span class="amt">A medida</span></div>
+        <p class="plan-desc">Suscripción anual con condiciones ajustadas a tu volumen.</p>
+        <ul class="plan-feat">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Revisiones ilimitadas</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Acceso directo a Marchena Consultores</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>Informes recurrentes</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#12395C" stroke-width="2"/></svg>SLA prioritario</li>
+        </ul>
+        <a href="#footer" class="btn btn-ghost btn-block">Hablemos</a>
+      </div>
+    </div>
+    <p class="price-note">Precios de referencia en COP, sujetos a confirmación · [Pendiente de definición final de pricing]</p>
+  </div>
+</section>
+
+<section class="social">
+  <div class="container">
+    <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <span class="eyebrow">Confianza</span>
+      <h2 style="margin-top:14px;">Empresas y autónomos que ya revisan con Oneside.</h2>
+    </div>
+    <div class="logos reveal">
+      <div class="logo-ph">Empresa A</div>
+      <div class="logo-ph">Empresa B</div>
+      <div class="logo-ph">Empresa C</div>
+      <div class="logo-ph">Empresa D</div>
+      <div class="logo-ph">Empresa E</div>
+    </div>
+    <div class="testis reveal">
+      <div class="testi">
+        <p>"Subí el contrato de arrendamiento de mi local y en dos días tenía claro qué cláusulas pedir que cambiaran."</p>
+        <div class="who"><span class="av"></span><div><strong>Nombre Apellido</strong><span>Autónoma · testimonio de ejemplo</span></div></div>
+      </div>
+      <div class="testi">
+        <p>"El informe fue directo al punto, sin tecnicismos. Justo lo que necesitábamos como pyme sin abogado interno."</p>
+        <div class="who"><span class="av"></span><div><strong>Nombre Apellido</strong><span>Fundador, pyme · testimonio de ejemplo</span></div></div>
+      </div>
+      <div class="testi">
+        <p>"Usamos el Plan Empresa para revisar todos los contratos de proveedores antes de firmar. Nos da tranquilidad."</p>
+        <div class="who"><span class="av"></span><div><strong>Nombre Apellido</strong><span>Gerente legal · testimonio de ejemplo</span></div></div>
+      </div>
+    </div>
+    <div class="trust-seal reveal">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="#12395C" stroke-width="1.8"/></svg>
+      Respaldado por Marchena Consultores, firma de Derecho Corporativo
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container" style="max-width:760px;">
+    <div class="section-head reveal">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2 style="margin-top:14px;">Lo que más nos preguntan.</h2>
+    </div>
+    <div class="acc-list reveal" id="faqAcc">
+      <div class="acc-item open">
+        <button class="acc-head" type="button">¿Es seguro subir mi contrato?<span class="plus"></span></button>
+        <div class="acc-body"><div class="acc-body-inner">Sí. Tu documento se cifra y solo lo revisa el equipo de Marchena Consultores. Puedes pedir que lo eliminemos cuando quieras.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Qué tipos de contrato revisan?<span class="plus"></span></button>
+        <div class="acc-body"><div class="acc-body-inner">Arrendamiento, laboral, mercantil, prestación de servicios y otros contratos comerciales frecuentes en pymes y autónomos.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Qué pasa si el informe necesita más revisión?<span class="plus"></span></button>
+        <div class="acc-body"><div class="acc-body-inner">Si un punto requiere una lectura más profunda, te lo indicamos en el informe y te contactamos para coordinar los siguientes pasos.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" type="button">¿Cuál es la diferencia entre el plan individual y la suscripción?<span class="plus"></span></button>
+        <div class="acc-body"><div class="acc-body-inner">La revisión individual es un pago único por contrato. El Plan Pyme y el Plan Empresa son suscripciones con revisiones ilimitadas y prioridad en la cola.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-final reveal">
+    <h2>¿Listo para firmar sin dudas?</h2>
+    <p>Sube tu contrato hoy y recibe el informe en un máximo de 3 días hábiles.</p>
+    <a href="#subir" class="btn btn-primary">Sube tu contrato</a>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:12px;"><span class="mark"></span><span>Oneside<br><small>by Marchena Consultores</small></span></div>
+        <p style="font-size:13.5px;color:var(--gray-600);max-width:260px;">Marchena Consultores — Derecho Corporativo. Revisión de contratos con tecnología y criterio jurídico.</p>
+      </div>
+      <div>
+        <h4>Producto</h4>
+        <ul>
+          <li><a href="#proceso">Cómo funciona</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#almacenamiento">Seguridad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+          <li><a href="#">Aviso legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:hola@oneside.co">hola@oneside.co</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Oneside — Marchena Consultores, Derecho Corporativo.</span>
+      <span>Contenido legal pendiente de validación por el equipo jurídico.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Scroll reveal ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.14});
+revealEls.forEach(el=>io.observe(el));
+
+/* ---------- Accordions ---------- */
+function setupAccordion(listId){
+  const list = document.getElementById(listId);
+  list.querySelectorAll('.acc-item').forEach(item=>{
+    const head = item.querySelector('.acc-head');
+    const body = item.querySelector('.acc-body');
+    const inner = item.querySelector('.acc-body-inner');
+    if(item.classList.contains('open')){ body.style.maxHeight = inner.offsetHeight + 40 + 'px'; }
+    head.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      list.querySelectorAll('.acc-item.open').forEach(o=>{
+        if(o!==item){ o.classList.remove('open'); o.querySelector('.acc-body').style.maxHeight = 0; }
+      });
+      if(isOpen){ item.classList.remove('open'); body.style.maxHeight = 0; }
+      else{ item.classList.add('open'); body.style.maxHeight = inner.offsetHeight + 40 + 'px'; }
+    });
+  });
+}
+setupAccordion('storageAcc');
+setupAccordion('faqAcc');
+
+/* ---------- Pricing toggle ---------- */
+const billingSwitch = document.getElementById('billingSwitch');
+const labelMensual = document.getElementById('labelMensual');
+const labelAnual = document.getElementById('labelAnual');
+const pymePrice = document.getElementById('pymePrice');
+const pymeDesc = document.getElementById('pymeDesc');
+let annual = false;
+billingSwitch.addEventListener('click', ()=>{
+  annual = !annual;
+  billingSwitch.classList.toggle('on', annual);
+  labelMensual.classList.toggle('active', !annual);
+  labelAnual.classList.toggle('active', annual);
+  if(annual){
+    pymePrice.textContent = '$299.000';
+    pymeDesc.textContent = 'Facturado anualmente. Ahorras 15% frente al mensual.';
+  } else {
+    pymePrice.textContent = '$349.000';
+    pymeDesc.textContent = 'Suscripción mensual, cancela cuando quieras.';
+  }
+});
+
+/* ---------- Upload flow ---------- */
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const browseBtn = document.getElementById('browseBtn');
+const filePicked = document.getElementById('filePicked');
+const fileNameEl = document.getElementById('fileName');
+const removeFileBtn = document.getElementById('removeFile');
+const formError = document.getElementById('formError');
+const uploadForm = document.getElementById('uploadForm');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressPct = document.getElementById('progressPct');
+const progressText = document.getElementById('progressText');
+const submitBtn = document.getElementById('submitBtn');
+const successState = document.getElementById('successState');
+const uploader = document.getElementById('uploader');
+const ticketIdEl = document.getElementById('ticketId');
+const resetFormBtn = document.getElementById('resetForm');
+const emailInput = document.getElementById('emailContacto');
+
+const ALLOWED_EXT = ['pdf','doc','docx'];
+const MAX_MB = 20;
+let currentFile = null;
+
+function showError(msg){ formError.textContent = msg; formError.classList.add('show'); }
+function clearError(){ formError.textContent=''; formError.classList.remove('show'); }
+
+function validateFile(file){
+  const ext = file.name.split('.').pop().toLowerCase();
+  if(!ALLOWED_EXT.includes(ext)){
+    return 'Formato no válido. Solo aceptamos PDF, DOC o DOCX.';
+  }
+  if(file.size > MAX_MB * 1024 * 1024){
+    return 'El archivo supera el límite de 20 MB.';
+  }
+  return null;
+}
+
+function setFile(file){
+  const err = validateFile(file);
+  clearError();
+  if(err){ showError(err); currentFile = null; filePicked.classList.remove('show'); return; }
+  currentFile = file;
+  fileNameEl.textContent = file.name;
+  filePicked.classList.add('show');
+}
+
+browseBtn.addEventListener('click', ()=>fileInput.click());
+dropzone.addEventListener('click', (e)=>{ if(e.target===dropzone || e.target.tagName==='P' || e.target.tagName==='svg' || e.target.tagName==='path') fileInput.click(); });
+fileInput.addEventListener('change', ()=>{ if(fileInput.files[0]) setFile(fileInput.files[0]); });
+
+['dragenter','dragover'].forEach(evt=>{
+  dropzone.addEventListener(evt, (e)=>{ e.preventDefault(); dropzone.classList.add('drag'); });
+});
+['dragleave','drop'].forEach(evt=>{
+  dropzone.addEventListener(evt, (e)=>{ e.preventDefault(); dropzone.classList.remove('drag'); });
+});
+dropzone.addEventListener('drop', (e)=>{
+  const file = e.dataTransfer.files[0];
+  if(file) setFile(file);
+});
+
+removeFileBtn.addEventListener('click', ()=>{
+  currentFile = null;
+  fileInput.value = '';
+  filePicked.classList.remove('show');
+  clearError();
+});
+
+uploadForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  clearError();
+
+  if(!currentFile){
+    showError('Selecciona un archivo antes de continuar.');
+    return;
+  }
+  const emailVal = emailInput.value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+  if(!emailOk){
+    showError('Ingresa un correo válido para enviarte el informe.');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando…';
+  progressWrap.classList.add('show');
+  progressText.textContent = 'Subiendo documento…';
+
+  let pct = 0;
+  const interval = setInterval(()=>{
+    pct += Math.random()*18 + 6;
+    if(pct >= 100){
+      pct = 100;
+      clearInterval(interval);
+      progressText.textContent = 'Documento subido';
+      setTimeout(finishUpload, 450);
+    }
+    progressFill.style.width = pct + '%';
+    progressPct.textContent = Math.floor(pct) + '%';
+  }, 220);
+});
+
+function finishUpload(){
+  const ticket = 'OS-' + Math.floor(100000 + Math.random()*899999);
+  ticketIdEl.textContent = 'Ref. ' + ticket;
+  uploader.classList.add('hide-form');
+  successState.classList.add('show');
+}
+
+resetFormBtn.addEventListener('click', ()=>{
+  uploadForm.reset();
+  currentFile = null;
+  filePicked.classList.remove('show');
+  progressWrap.classList.remove('show');
+  progressFill.style.width='0%';
+  progressPct.textContent='0%';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Enviar contrato a revisión';
+  successState.classList.remove('show');
+  uploader.classList.remove('hide-form');
+  clearError();
+});
+</script>
+</body>
+</html>
