@@ -262,6 +262,21 @@ select:focus, input[type=email]:focus{border-color:var(--turqui-600);}
   letter-spacing:.04em;padding:9px 16px;border-radius:10px;font-size:13.5px;
 }
 .uploader.hide-form .upload-body{display:none;}
+.step-indicator{
+  display:flex;align-items:center;gap:9px;margin-bottom:20px;
+  font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--turqui-600);
+}
+.step-dot{width:7px;height:7px;border-radius:50%;background:var(--turqui-600);flex:none;}
+.step-back{
+  margin-left:auto;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--gray-400);
+  text-decoration:underline;
+}
+.step-back:hover{color:var(--turqui-700);}
+.checkbox-row{
+  display:flex;align-items:flex-start;gap:10px;margin-top:18px;font-size:12.5px;color:var(--gray-600);
+  line-height:1.5;cursor:pointer;
+}
+.checkbox-row input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--turqui-700);cursor:pointer;}
 
 /* ---- Analyzing / Report ---- */
 .analyzing{display:none;text-align:center;padding:30px 4px 6px;}
@@ -398,7 +413,7 @@ footer{padding:60px 0 34px;border-top:1px solid var(--gray-100);}
         <path d="M8.3 15.6h2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
         <path d="M9.3 17.6l1.6 1.6 3.4-3.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span><span class="word">Onside</span><span class="sub">by Marchena Consultores</span></span>
+      <span><span class="word">Oneside</span><span class="sub">by Marchena Consultores</span></span>
     </div>
     <nav class="nav-links">
       <a href="#proceso">Cómo funciona</a>
@@ -525,43 +540,78 @@ footer{padding:60px 0 34px;border-top:1px solid var(--gray-100);}
 
     <div class="uploader reveal" id="uploader">
       <div class="upload-body">
-        <form id="uploadForm" novalidate>
-          <div class="dropzone" id="dropzone">
-            <input type="file" id="fileInput" accept=".pdf,.doc,.docx">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 15V3M12 3L7 8M12 3l5 5" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>Arrastra tu contrato aquí o <span class="browse" id="browseBtn">selecciona el archivo</span></p>
-            <p class="hint">PDF, DOCX o DOC · máx. 20 MB</p>
-          </div>
-          <div class="file-picked" id="filePicked">
-            <span class="name" id="fileName"></span>
-            <button type="button" id="removeFile">Quitar</button>
-          </div>
-          <div class="form-error" id="formError"></div>
 
-          <div class="field">
-            <label for="tipoContrato">Tipo de contrato (opcional)</label>
-            <select id="tipoContrato">
-              <option value="">Selecciona una opción</option>
-              <option value="arrendamiento">Arrendamiento</option>
-              <option value="laboral">Laboral</option>
-              <option value="mercantil">Mercantil</option>
-              <option value="prestacion">Prestación de servicios</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="emailContacto">Correo para enviarte el informe validado</label>
-            <input type="email" id="emailContacto" placeholder="tucorreo@empresa.com" required>
-            <span class="field-hint">La vista previa de la IA la puedes descargar aquí mismo. El informe final validado por Marchena llega a este correo.</span>
-          </div>
+        <!-- Paso 1: datos del solicitante -->
+        <div class="step-panel" id="panelDatos">
+          <div class="step-indicator"><span class="step-dot active"></span><span>Paso 1 de 2 · Tus datos</span></div>
+          <form id="datosForm" novalidate>
+            <div class="field">
+              <label for="nombreSolicitante">Nombre completo</label>
+              <input type="text" id="nombreSolicitante" placeholder="Nombre y apellido" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="idSolicitante">Número de identificación</label>
+              <input type="text" id="idSolicitante" placeholder="Cédula, NIT o documento de identidad">
+            </div>
+            <div class="field">
+              <label for="direccionSolicitante">Dirección</label>
+              <input type="text" id="direccionSolicitante" placeholder="Dirección de residencia o de la empresa">
+            </div>
+            <div class="field">
+              <label for="emailContacto">Correo electrónico</label>
+              <input type="email" id="emailContacto" placeholder="tucorreo@empresa.com" autocomplete="email">
+              <span class="field-hint">Aquí recibirás el informe final validado por Marchena Consultores.</span>
+            </div>
+            <div class="form-error" id="datosError"></div>
+            <label class="checkbox-row">
+              <input type="checkbox" id="consentCheck">
+              <span>Autorizo a Oneside y a Marchena Consultores a tratar mis datos personales y el contenido de mi documento exclusivamente para esta revisión contractual, de acuerdo con la Ley 1581 de 2012.</span>
+            </label>
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Continuar y subir mi contrato</button>
+          </form>
+        </div>
 
-          <div class="progress-wrap" id="progressWrap">
-            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-            <div class="progress-label"><span id="progressText">Subiendo documento…</span><span id="progressPct">0%</span></div>
+        <!-- Paso 2: archivo -->
+        <div class="step-panel" id="panelArchivo" style="display:none;">
+          <div class="step-indicator">
+            <span class="step-dot active"></span>
+            <span>Paso 2 de 2 · Tu contrato</span>
+            <button type="button" class="step-back" id="backToDatos">Editar mis datos</button>
           </div>
+          <form id="uploadForm" novalidate>
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="fileInput" accept=".pdf,.doc,.docx">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 15V3M12 3L7 8M12 3l5 5" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="#12395C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <p>Arrastra tu contrato aquí o <span class="browse" id="browseBtn">selecciona el archivo</span></p>
+              <p class="hint">PDF, DOCX o DOC · máx. 20 MB</p>
+            </div>
+            <div class="file-picked" id="filePicked">
+              <span class="name" id="fileName"></span>
+              <button type="button" id="removeFile">Quitar</button>
+            </div>
+            <div class="form-error" id="formError"></div>
 
-          <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;" id="submitBtn">Enviar contrato a revisión</button>
-        </form>
+            <div class="field">
+              <label for="tipoContrato">Tipo de contrato (opcional)</label>
+              <select id="tipoContrato">
+                <option value="">Selecciona una opción</option>
+                <option value="arrendamiento">Arrendamiento</option>
+                <option value="laboral">Laboral</option>
+                <option value="mercantil">Mercantil</option>
+                <option value="prestacion">Prestación de servicios</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+              <div class="progress-label"><span id="progressText">Subiendo documento…</span><span id="progressPct">0%</span></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;" id="submitBtn">Enviar contrato a revisión</button>
+          </form>
+        </div>
+
       </div>
 
       <div class="success-state" id="successState">
@@ -774,7 +824,7 @@ footer{padding:60px 0 34px;border-top:1px solid var(--gray-100);}
             <path d="M8.3 15.6h2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
             <path d="M9.3 17.6l1.6 1.6 3.4-3.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span><span class="word">Onside</span><span class="sub">by Marchena Consultores</span></span>
+          <span><span class="word">Oneside</span><span class="sub">by Marchena Consultores</span></span>
         </div>
         <p style="font-size:13.5px;color:var(--gray-600);max-width:260px;">Marchena Consultores — Derecho Corporativo. Revisión de contratos con tecnología y criterio jurídico.</p>
       </div>
@@ -884,6 +934,17 @@ let currentFile = null;
 let currentTicket = null;
 let lastReportData = null;
 let lastMeta = null;
+let solicitante = { nombre:'', id:'', direccion:'', correo:'' };
+
+const panelDatos = document.getElementById('panelDatos');
+const panelArchivo = document.getElementById('panelArchivo');
+const datosForm = document.getElementById('datosForm');
+const datosError = document.getElementById('datosError');
+const nombreInput = document.getElementById('nombreSolicitante');
+const idInput = document.getElementById('idSolicitante');
+const direccionInput = document.getElementById('direccionSolicitante');
+const consentCheck = document.getElementById('consentCheck');
+const backToDatosBtn = document.getElementById('backToDatos');
 
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('fileInput');
@@ -911,6 +972,41 @@ const successTitle = document.getElementById('successTitle');
 const successSub = document.getElementById('successSub');
 const downloadPdfBtn = document.getElementById('downloadPdfBtn');
 const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+
+function showDatosError(msg){ datosError.textContent = msg; datosError.classList.add('show'); }
+function clearDatosError(){ datosError.textContent=''; datosError.classList.remove('show'); }
+
+datosForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  clearDatosError();
+  const nombre = nombreInput.value.trim();
+  const idVal = idInput.value.trim();
+  const direccion = direccionInput.value.trim();
+  const correo = emailInput.value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+
+  if(!nombre || !idVal || !direccion || !correo){
+    showDatosError('Completa todos los campos para continuar.');
+    return;
+  }
+  if(!emailOk){
+    showDatosError('Ingresa un correo electrónico válido.');
+    return;
+  }
+  if(!consentCheck.checked){
+    showDatosError('Debes autorizar el tratamiento de tus datos para continuar.');
+    return;
+  }
+
+  solicitante = { nombre, id: idVal, direccion, correo };
+  panelDatos.style.display = 'none';
+  panelArchivo.style.display = 'block';
+});
+
+backToDatosBtn.addEventListener('click', ()=>{
+  panelArchivo.style.display = 'none';
+  panelDatos.style.display = 'block';
+});
 
 function showError(msg){ formError.textContent = msg; formError.classList.add('show'); }
 function clearError(){ formError.textContent=''; formError.classList.remove('show'); }
@@ -963,12 +1059,6 @@ uploadForm.addEventListener('submit', (e)=>{
 
   if(!currentFile){
     showError('Selecciona un archivo antes de continuar.');
-    return;
-  }
-  const emailVal = emailInput.value.trim();
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
-  if(!emailOk){
-    showError('Ingresa un correo válido para enviarte el informe.');
     return;
   }
 
@@ -1041,10 +1131,24 @@ async function analizarConIA(fileMeta, tipoContratoHint){
   return JSON.parse(cleaned);
 }
 
-function renderReport(data){
-  reportSummary.innerHTML = `<strong>Tipo de contrato detectado:</strong> ${escapeHtml(data.tipo_contrato || 'No especificado')}<br><br>${escapeHtml(data.resumen || '')}`;
-  reportCards.innerHTML = '';
+function computeRiesgoGeneral(hallazgos){
+  if(!hallazgos || hallazgos.length === 0) return 'bajo';
+  if(hallazgos.some(h=>h.riesgo==='alto')) return 'alto';
+  if(hallazgos.some(h=>h.riesgo==='medio')) return 'medio';
+  return 'bajo';
+}
+
+function renderReport(data, meta){
   const hallazgos = data.hallazgos || [];
+  const riesgoGeneral = computeRiesgoGeneral(hallazgos);
+  reportSummary.innerHTML = `
+    <strong>Solicitante:</strong> ${escapeHtml(meta.nombre)} · ${escapeHtml(meta.id)}<br>
+    <strong>Correo:</strong> ${escapeHtml(meta.correo)}<br><br>
+    <strong>Tipo de contrato detectado:</strong> ${escapeHtml(data.tipo_contrato || 'No especificado')}<br>
+    <strong>Nivel de riesgo general:</strong> <span class="risk-badge risk-${riesgoGeneral}" style="margin-left:2px;">Riesgo ${riesgoGeneral}</span><br><br>
+    ${escapeHtml(data.resumen || '')}
+  `;
+  reportCards.innerHTML = '';
   if(hallazgos.length === 0){
     reportCards.innerHTML = '<p style="color:var(--gray-600);font-size:13.5px;">No se detectaron hallazgos críticos automáticamente. Nuestro equipo revisará el documento en detalle.</p>';
     return;
@@ -1077,7 +1181,10 @@ async function finishUpload(){
   const tipoContrato = document.getElementById('tipoContrato').value;
   const nombreArchivo = currentFile.name;
   const fecha = new Date().toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' });
-  lastMeta = { ticket, fecha, nombreArchivo, tipoContratoHint: tipoContrato };
+  lastMeta = {
+    ticket, fecha, nombreArchivo, tipoContratoHint: tipoContrato,
+    nombre: solicitante.nombre, id: solicitante.id, direccion: solicitante.direccion, correo: solicitante.correo
+  };
 
   try{
     const ext = nombreArchivo.split('.').pop().toLowerCase();
@@ -1094,7 +1201,7 @@ async function finishUpload(){
 
     const reportData = await analizarConIA(fileMeta, tipoContrato);
     lastReportData = reportData;
-    renderReport(reportData);
+    renderReport(reportData, lastMeta);
 
     analyzingState.classList.remove('show');
     reportWrap.classList.add('show');
@@ -1131,7 +1238,7 @@ function drawLetterhead(doc, meta){
   doc.setTextColor(255,255,255);
   doc.setFont('times','bold');
   doc.setFontSize(19);
-  doc.text('Onside', 33, 18);
+  doc.text('Oneside', 33, 18);
   doc.setFont('helvetica','normal');
   doc.setFontSize(8);
   doc.setTextColor(205,215,225);
@@ -1169,46 +1276,75 @@ function descargarInformePDF(){
   const amber = [184,130,58];
   const red = [179,69,46];
   const turq = [27,74,115];
+  const grayText = [75,90,104];
   const pageWidth = 210;
+  const hallazgos = lastReportData.hallazgos || [];
+  const riesgoGeneral = computeRiesgoGeneral(hallazgos);
+  const riesgoColor = riesgoGeneral === 'alto' ? red : riesgoGeneral === 'medio' ? amber : turq;
 
   let y = drawLetterhead(doc, lastMeta);
 
   doc.setTextColor(...navy);
   doc.setFont('helvetica','bold');
-  doc.setFontSize(16);
-  doc.text('Informe de Revisión Contractual', 14, y);
-  y += 8;
+  doc.setFontSize(17);
+  doc.text('Informe Preliminar de Revisión Contractual', 14, y);
+  y += 6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(140,150,160);
+  doc.text(`Generado automáticamente el ${lastMeta.fecha} · Referencia ${lastMeta.ticket}`, 14, y);
+  y += 10;
 
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(10.5);
-  doc.setTextColor(75,90,104);
-  doc.text(`Tipo de contrato: ${lastReportData.tipo_contrato || 'No especificado'}`, 14, y); y += 6;
-  doc.text(`Documento analizado: ${lastMeta.nombreArchivo}`, 14, y); y += 10;
+  // Datos del solicitante (boxed)
+  doc.setDrawColor(221,229,234);
+  doc.setFillColor(246,248,250);
+  doc.roundedRect(14, y, pageWidth-28, 26, 2, 2, 'FD');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...navy);
+  doc.text('DATOS DEL SOLICITANTE', 18, y+7);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...grayText);
+  doc.text(`Nombre: ${lastMeta.nombre || '—'}`, 18, y+13);
+  doc.text(`Identificación: ${lastMeta.id || '—'}`, 18, y+18.5);
+  doc.text(`Dirección: ${lastMeta.direccion || '—'}`, pageWidth/2, y+13);
+  doc.text(`Correo: ${lastMeta.correo || '—'}`, pageWidth/2, y+18.5);
+  y += 34;
+
+  doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(...grayText);
+  doc.text(`Documento analizado: ${lastMeta.nombreArchivo}`, 14, y); y += 6;
+  doc.text(`Tipo de contrato detectado: ${lastReportData.tipo_contrato || 'No especificado'}`, 14, y); y += 10;
+
+  // Nivel de riesgo general (boxed)
+  doc.setDrawColor(...riesgoColor);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(14, y, pageWidth-28, 12, 2, 2, 'D');
+  doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(...riesgoColor);
+  doc.text(`NIVEL DE RIESGO GENERAL: ${riesgoGeneral.toUpperCase()}`, 18, y+7.8);
+  y += 20;
 
   doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...navy);
-  doc.text('Resumen', 14, y); y += 6;
-  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(75,90,104);
+  doc.text('Resumen ejecutivo', 14, y); y += 6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...grayText);
   const resumenLines = doc.splitTextToSize(lastReportData.resumen || 'Sin resumen disponible.', pageWidth-28);
   doc.text(resumenLines, 14, y); y += resumenLines.length*5 + 8;
+
+  doc.setFont('helvetica','italic'); doc.setFontSize(8.7); doc.setTextColor(140,150,160);
+  const metodologia = doc.splitTextToSize('Metodología: este informe preliminar se generó mediante lectura automatizada del documento aportado por el solicitante, sin intervención humana en esta etapa.', pageWidth-28);
+  doc.text(metodologia, 14, y); y += metodologia.length*4.2 + 10;
 
   doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...navy);
   doc.text('Hallazgos y recomendaciones', 14, y); y += 8;
 
-  const hallazgos = lastReportData.hallazgos || [];
   if(hallazgos.length === 0){
-    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(75,90,104);
+    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...grayText);
     doc.text('No se detectaron hallazgos críticos en la lectura automática.', 14, y);
     y += 8;
   }
   hallazgos.forEach((h, i)=>{
-    if(y > 262){ doc.addPage(); y = 20; }
+    if(y > 258){ doc.addPage(); y = 20; }
     const riesgo = ['alto','medio','bajo'].includes(h.riesgo) ? h.riesgo : 'bajo';
     const color = riesgo === 'alto' ? red : riesgo === 'medio' ? amber : turq;
     doc.setFillColor(...color);
     doc.circle(16, y-1.4, 1.3, 'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(...navy);
     doc.text(`${i+1}. ${h.clausula || ''}  ·  Riesgo ${riesgo}`, 21, y); y += 5.5;
-    doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(75,90,104);
+    doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...grayText);
     const probLines = doc.splitTextToSize(`Problema: ${h.problema || ''}`, pageWidth-35);
     doc.text(probLines, 21, y); y += probLines.length*4.6 + 1;
     doc.setTextColor(...navy);
@@ -1216,13 +1352,17 @@ function descargarInformePDF(){
     doc.text(recLines, 21, y); y += recLines.length*4.6 + 7;
   });
 
-  if(y > 255) { doc.addPage(); y = 20; }
+  if(y > 250) { doc.addPage(); y = 20; }
+  doc.setDrawColor(221,229,234);
+  doc.line(14, y, pageWidth-14, y); y += 8;
+  doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...navy);
+  doc.text('Aviso legal', 14, y); y += 5.5;
   doc.setFont('helvetica','italic'); doc.setFontSize(8.5); doc.setTextColor(140,150,160);
-  const disclaimer = doc.splitTextToSize('Esta es una vista previa generada automáticamente por Oneside. No constituye asesoría legal definitiva hasta ser validada por un abogado de Marchena Consultores.', pageWidth-28);
+  const disclaimer = doc.splitTextToSize('Este es un informe PRELIMINAR generado automáticamente por Oneside a partir del documento aportado por el solicitante. No constituye concepto jurídico definitivo ni asesoría legal vinculante. El informe final, validado por un abogado de Marchena Consultores, será enviado al correo registrado dentro del plazo máximo de 3 días hábiles.', pageWidth-28);
   doc.text(disclaimer, 14, y);
 
   drawFooterAllPages(doc);
-  doc.save(`Informe-Onside-${lastMeta.ticket}.pdf`);
+  doc.save(`Informe-Preliminar-Oneside-${lastMeta.ticket}.pdf`);
 }
 
 function descargarComprobantePDF(){
@@ -1241,6 +1381,8 @@ function descargarComprobantePDF(){
   doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(75,90,104);
   const lines = [
     `Número de referencia: ${lastMeta.ticket}`,
+    `Solicitante: ${lastMeta.nombre || '—'} (${lastMeta.id || '—'})`,
+    `Correo de contacto: ${lastMeta.correo || '—'}`,
     `Documento recibido: ${lastMeta.nombreArchivo}`,
     `Tipo de contrato indicado: ${lastMeta.tipoContratoHint || 'No especificado'}`,
     `Fecha de recepción: ${lastMeta.fecha}`,
@@ -1254,7 +1396,7 @@ function descargarComprobantePDF(){
   doc.text(note, 14, y);
 
   drawFooterAllPages(doc);
-  doc.save(`Comprobante-Onside-${lastMeta.ticket}.pdf`);
+  doc.save(`Comprobante-Oneside-${lastMeta.ticket}.pdf`);
 }
 
 downloadPdfBtn.addEventListener('click', descargarInformePDF);
@@ -1280,7 +1422,9 @@ resetFormBtn.addEventListener('click', ()=>{
   downloadPdfBtn.style.display = 'none';
   downloadReceiptBtn.style.display = 'none';
   clearError();
+  panelDatos.style.display = 'none';
+  panelArchivo.style.display = 'block';
 });
 </script>
 </body>
-</html> 
+</html>
