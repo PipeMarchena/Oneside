@@ -898,8 +898,9 @@ footer{padding:60px 0 34px;border-top:1px solid var(--gray-100);}
 <script>
 const CONFIG = {
   WEB3FORMS_ACCESS_KEY: 'TU_ACCESS_KEY_DE_WEB3FORMS',
-  CLOUDINARY_CLOUD_NAME: 'TU_CLOUD_NAME',
-  CLOUDINARY_UPLOAD_PRESET: 'TU_UPLOAD_PRESET'
+  SUPABASE_URL: 'https://zhxuqspyystxvbnzpdfr.supabase.co',
+  SUPABASE_KEY: 'sb_publishable_uKJ8NFEmEAXQBl7FXezcOg_2e7fiTh3',
+  SUPABASE_BUCKET: 'contratos'
 };
 
 const PLAN_LABELS = {
@@ -1114,19 +1115,23 @@ removeFileBtn.addEventListener('click', ()=>{
   clearError();
 });
 
-function subirArchivoAlmacenamiento(file, onProgress){
+function subirArchivoAlmacenamiento(file, ticket, onProgress){
   return new Promise((resolve, reject)=>{
-    if(CONFIG.CLOUDINARY_CLOUD_NAME === 'TU_CLOUD_NAME' || CONFIG.CLOUDINARY_UPLOAD_PRESET === 'TU_UPLOAD_PRESET'){
+    if(CONFIG.SUPABASE_URL === 'TU_SUPABASE_URL' || CONFIG.SUPABASE_KEY === 'TU_SUPABASE_KEY'){
       reject(new Error('CONFIG_PENDIENTE'));
       return;
     }
-    const url = 'https://api.cloudinary.com/v1_1/' + CONFIG.CLOUDINARY_CLOUD_NAME + '/auto/upload';
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', CONFIG.CLOUDINARY_UPLOAD_PRESET);
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = ticket + '/' + safeName;
+    const encodedPath = path.split('/').map(encodeURIComponent).join('/');
+    const url = CONFIG.SUPABASE_URL + '/storage/v1/object/' + CONFIG.SUPABASE_BUCKET + '/' + encodedPath;
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
+    xhr.setRequestHeader('apikey', CONFIG.SUPABASE_KEY);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + CONFIG.SUPABASE_KEY);
+    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+    xhr.setRequestHeader('x-upsert', 'true');
     xhr.upload.onprogress = (evt)=>{
       if(evt.lengthComputable && onProgress){
         onProgress(Math.round((evt.loaded / evt.total) * 100));
@@ -1134,16 +1139,16 @@ function subirArchivoAlmacenamiento(file, onProgress){
     };
     xhr.onload = ()=>{
       if(xhr.status >= 200 && xhr.status < 300){
-        try{
-          const data = JSON.parse(xhr.responseText);
-          resolve(data.secure_url || data.url);
-        }catch(e){ reject(new Error('Respuesta inválida del almacenamiento.')); }
+        const publicUrl = CONFIG.SUPABASE_URL + '/storage/v1/object/public/' + CONFIG.SUPABASE_BUCKET + '/' + encodedPath;
+        resolve(publicUrl);
       } else {
-        reject(new Error('Error al guardar el documento (' + xhr.status + ')'));
+        let detail = '';
+        try{ detail = JSON.parse(xhr.responseText).message || ''; }catch(e){}
+        reject(new Error('Error al guardar el documento (' + xhr.status + ') ' + detail));
       }
     };
     xhr.onerror = ()=> reject(new Error('No se pudo conectar con el almacenamiento.'));
-    xhr.send(fd);
+    xhr.send(file);
   });
 }
 
@@ -1208,7 +1213,7 @@ uploadForm.addEventListener('submit', async (e)=>{
   };
 
   try{
-    const archivoUrl = await subirArchivoAlmacenamiento(currentFile, (pct)=>{
+    const archivoUrl = await subirArchivoAlmacenamiento(currentFile, ticket, (pct)=>{
       progressFill.style.width = pct + '%';
       progressPct.textContent = pct + '%';
     });
